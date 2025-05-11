@@ -13,6 +13,8 @@ class HTMLNode:
 
 
     def props_to_html(self):
+        if not self.props:
+            return ""
         return reduce(lambda acc, p: f"{acc} {p[0]}=\"{p[1]}\"",
                       self.props.items(), "")
 

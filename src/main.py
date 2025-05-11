@@ -1,10 +1,21 @@
 from htmlnode import HTMLNode
+from leafnode import LeafNode
+from parentnode import ParentNode
 from textnode import TextNode, TextType
 
 
 def main():
-    test = HTMLNode("h1", "hello", None,
-                    {"href":"http:suck.it", "target":"lol"})
-    print(test)
+    node = ParentNode(
+    "p",
+    [
+        LeafNode("b", "Bold text"),
+        LeafNode(None, "Normal text"),
+        LeafNode("i", "italic text"),
+        LeafNode(None, "Normal text"),
+    ],
+    )
+    value = node.to_html()
+    print(value)
+
 
 main()
