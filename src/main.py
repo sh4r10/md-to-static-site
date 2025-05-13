@@ -1,13 +1,11 @@
-from htmlnode import HTMLNode
-from leafnode import LeafNode
-from parentnode import ParentNode
-from textnode import TextNode, TextType, split_nodes_delimeter
-
+from node_utils import text_to_textnodes
 
 def main():
-    node = TextNode("This is text with a `code block` word", TextType.TEXT)
-    new_nodes = split_nodes_delimeter([node], "`", TextType.CODE)
-    print(new_nodes)
+    text = """This is **text** with an _italic_ word and a `code block` and an
+    ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a
+    [link](https://boot.dev)"""
+    nodes = text_to_textnodes(text)
+    print(nodes)
 
 
 main()
