@@ -263,7 +263,32 @@ class TestTextToTextNodesConverstion(unittest.TestCase):
         self.assertEqual(nodes, expected)
 
 
-    # TODO: Write More tests
+    def test_all_types_conversion(self):
+        text = "![image](link.com) this begins with, said Yoda. "\
+        "a [link](url.com) it does contain, and **bold** it is. "\
+        "`code` it contains and _italic_ is a must."
+        nodes = text_to_textnodes(text)
+        expected =  [
+            TextNode("image", TextType.IMAGE, "link.com"),
+            TextNode(" this begins with, said Yoda. a ", TextType.TEXT),
+            TextNode("link", TextType.LINK, "url.com"),
+            TextNode(" it does contain, and ", TextType.TEXT),
+            TextNode("bold", TextType.BOLD),
+            TextNode(" it is. ", TextType.TEXT),
+            TextNode("code", TextType.CODE),
+            TextNode(" it contains and ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" is a must.", TextType.TEXT),
+        ]
+        self.assertEqual(nodes, expected)
+
+
+    def text_no_special_elements(self):
+        text = "hello, world!"
+        nodes = text_to_textnodes(text)
+        self.assertEqual(nodes, [TextNode(text, TextType.TEXT)])
+
+
 
 if __name__ == "__main__":
     unittest.main()

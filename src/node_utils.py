@@ -70,15 +70,19 @@ def split_nodes_link(old_nodes):
             new_nodes.append(node)
             continue
 
-        remaining_node = node.text
+        remaining_text = node.text
         for text, url in extracted:
-            split = remaining_node.split(f"[{text}]({url})", maxsplit=1)
+            split = remaining_text.split(f"[{text}]({url})", maxsplit=1)
             if len(split) != 2:
                 raise ValueError("Invalid link")
             if split[0] != "":
                 new_nodes.append(TextNode(split[0], TextType.TEXT))
             new_nodes.append(TextNode(text, TextType.LINK, url))
-            remaining_node = split[1]
+            remaining_text = split[1]
+
+        if remaining_text != "":
+            new_nodes.append(TextNode(remaining_text, TextType.TEXT))
+
     return new_nodes
 
 
