@@ -1,7 +1,8 @@
+import re
 from blocks import BlockType, block_to_block_type, markdown_to_blocks
 from node_utils import text_to_textnodes
 from parentnode import ParentNode
-from textnode import text_node_to_html_node
+from textnode import TextNode, TextType, text_node_to_html_node
 
 
 def parse_headings(text):
@@ -38,14 +39,22 @@ def parse_list(text, type):
     else:
         return ParentNode("ul", children)
 
-def parse_paragraph(text):
-    nodes = text_to_textnodes(text)
 
+def parse_code_block(text):
+    code = re.match(r"^`{3}\n(.*)`{3}$", text, re.DOTALL)
+    node = TextNode(code.group(1), TextType.CODE)
+    child = text_node_to_html_node(node)
+    return ParentNode("pre", [child])
+
+
+def parse_paragraph(text):
+    split_and_strip = map(lambda l: l.strip(), text.splitlines())
+    nodes = text_to_textnodes(" ".join(split_and_strip))
     children = list(map(text_node_to_html_node, nodes))
     return ParentNode("p", children)
 
 
-def markdown_to_html_nodes(markdown):
+def markdown_to_html_node(markdown):
     html_nodes = []
     blocks = markdown_to_blocks(markdown)
     for block in blocks:
@@ -61,6 +70,8 @@ def markdown_to_html_nodes(markdown):
                 html_nodes.append(parse_list(block, block_type))
             case BlockType.PARAGRAPH:
                 html_nodes.append(parse_paragraph(block))
+            case BlockType.CODE:
+                html_nodes.append(parse_code_block(block))
             case _:
                 raise ValueError("Invalid block type")
     
