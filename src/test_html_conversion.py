@@ -1,6 +1,6 @@
 import unittest
 
-from html_conversion import markdown_to_html_node
+from html_conversion import extract_title, markdown_to_html_node
 
 class TestHTMLConversion(unittest.TestCase):
     def test_paragraphs(self):
@@ -111,7 +111,14 @@ the **same** even with inline stuff
         )
 
 
-
+    def test_title_extraction(self):
+        md = """
+this is not the title 
+## neither is this
+# but this is
+            """
+        title = extract_title(md)
+        self.assertEqual("but this is", title)
 
 
 if __name__ == "__main__":

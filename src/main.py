@@ -1,22 +1,30 @@
-from blocks import block_to_block_type, markdown_to_blocks
-from html_conversion import markdown_to_html_node
-from leafnode import LeafNode
-from node_utils import text_to_textnodes
-from parentnode import ParentNode
-from textnode import text_node_to_html_node
+import os
+import shutil
 
 def main():
-    md = """
-# This is a heading
+    copy_static_files("static", "public")
 
-hi this is some `brode` sike
 
-```
-this is some shit
-```
+def copy_static_files(source, target):
+    if not os.path.exists(source):
+        raise Exception("Invalid source path")
 
-"""
-    print(markdown_to_html_node(md).to_html())
+    if os.path.isfile(source):
+        shutil.copy(source, target)
+        return
+
+    if os.path.exists(target):
+        shutil.rmtree(target)
+
+    os.mkdir(target)
+    items = os.listdir(source)
+
+    for item in items:
+        if os.path.isfile(item):
+            copy_static_files(os.path.join(source,item), target)
+        else:
+            copy_static_files(os.path.join(source, item),
+                              os.path.join(target,item))
 
 
 main()

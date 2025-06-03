@@ -80,3 +80,11 @@ def markdown_to_html_node(markdown):
 
     return ParentNode("div", html_nodes)
 
+
+def extract_title(md):
+    title = ""
+    for line in md.splitlines():
+        if line.startswith("# "):
+            title = line.replace("# ", "").strip()
+            break
+    return title
