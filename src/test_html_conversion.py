@@ -81,7 +81,8 @@ the **same** even with inline stuff
 
     def test_blockquote(self):
         md = """
->This is a block quote 
+> This is a block quote 
+>
 >it has some **bold** text
         """
 

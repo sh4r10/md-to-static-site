@@ -16,11 +16,12 @@ def parse_headings(text):
 
 def parse_quote(text):
     lines = text.splitlines()
-    nodes = []
+    quote = ""
 
     for line in lines:
-        nodes.extend(text_to_textnodes(line[1::]))
+        quote += line[1::]
 
+    nodes = text_to_textnodes(quote.strip())
     children = list(map(text_node_to_html_node, nodes))
     return ParentNode("blockquote", list(children))
 
