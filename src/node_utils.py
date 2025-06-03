@@ -20,12 +20,12 @@ def split_nodes_delimeter(old_nodes, delimeter, text_type):
 
 
 def extract_markdown_images(text):
-    images = re.findall(r"\!\[([\w\d\s\./@\:]+)\]\(([\w\d\s\./@\:]+)\)", text)
+    images = re.findall(r"\!\[([^\]]*)\]\(([^\)]*)\)", text)
     return images
 
 
 def extract_markdown_links(text):
-    links = re.findall(r"(?<!\!)\[([\w\d\s\./@\:]+)\]\(([\w\d\s\./@\:]+)\)", text)
+    links = re.findall(r"(?<!\!)\[([^\]]*)\]\(([^\)]*)\)", text)
     return links
 
 

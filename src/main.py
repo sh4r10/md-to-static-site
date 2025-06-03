@@ -1,8 +1,11 @@
 import os
 import shutil
+from pathlib import Path
+from html_conversion import extract_title, markdown_to_html_node
 
 def main():
     copy_static_files("static", "public")
+    generate_page("content/index.md", "template.html", "public/index.html")
 
 
 def copy_static_files(source, target):
@@ -25,6 +28,28 @@ def copy_static_files(source, target):
         else:
             copy_static_files(os.path.join(source, item),
                               os.path.join(target,item))
+
+
+def generate_page(from_path, template_path, dest_path):
+    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
+    result = ""
+    with open(from_path) as from_file, open(template_path) as template_file:
+        template = template_file.read()
+        content = from_file.read()
+        content_html = markdown_to_html_node(content).to_html()
+        title = extract_title(content)
+        result = template.replace("{{ Title }}", title)
+        result = result.replace("{{ Content }}", content_html)
+
+    target = Path(dest_path)
+    target.parent.mkdir(exist_ok=True, parents=True)
+
+    with target.open("w") as target_file:
+        target_file.write(result)
+
+
+
+        
 
 
 main()
