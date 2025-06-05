@@ -1,11 +1,12 @@
 import os
+from os.path import isfile
 import shutil
 from pathlib import Path
 from html_conversion import extract_title, markdown_to_html_node
 
 def main():
     copy_static_files("static", "public")
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "public")
 
 
 def copy_static_files(source, target):
@@ -48,8 +49,17 @@ def generate_page(from_path, template_path, dest_path):
         target_file.write(result)
 
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    items = os.listdir(dir_path_content)
+    for item in items:
+        relative_path = os.path.join(dir_path_content, item)
+        relative_dest = os.path.join(dest_dir_path, item).replace(".md",
+                                                                  ".html")
 
-        
+        if os.path.isfile(relative_path) and item.endswith(".md"):
+            generate_page(relative_path, template_path, relative_dest)
+        elif not os.path.isfile(relative_path):
+            generate_pages_recursive(relative_path,template_path, relative_dest)
 
 
 main()
