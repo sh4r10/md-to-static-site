@@ -1,12 +1,17 @@
 import os
-from os.path import isfile
+import sys
 import shutil
 from pathlib import Path
 from html_conversion import extract_title, markdown_to_html_node
 
 def main():
-    copy_static_files("static", "public")
-    generate_pages_recursive("content", "template.html", "public")
+    base_path = "/"
+
+    if len(sys.argv) == 2:
+        base_path = sys.argv[1]
+
+    copy_static_files("static", "docs")
+    generate_pages_recursive("content", "template.html", "docs", base_path)
 
 
 def copy_static_files(source, target):
@@ -31,7 +36,7 @@ def copy_static_files(source, target):
                               os.path.join(target,item))
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     result = ""
     with open(from_path) as from_file, open(template_path) as template_file:
@@ -41,6 +46,8 @@ def generate_page(from_path, template_path, dest_path):
         title = extract_title(content)
         result = template.replace("{{ Title }}", title)
         result = result.replace("{{ Content }}", content_html)
+        result = result.replace("href=\"/", "href=\""+base_path)
+        result = result.replace("src=\"/", "src=\""+base_path)
 
     target = Path(dest_path)
     target.parent.mkdir(exist_ok=True, parents=True)
@@ -49,7 +56,8 @@ def generate_page(from_path, template_path, dest_path):
         target_file.write(result)
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path,
+                             base_path):
     items = os.listdir(dir_path_content)
     for item in items:
         relative_path = os.path.join(dir_path_content, item)
@@ -57,9 +65,10 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
                                                                   ".html")
 
         if os.path.isfile(relative_path) and item.endswith(".md"):
-            generate_page(relative_path, template_path, relative_dest)
+            generate_page(relative_path, template_path, relative_dest, base_path)
         elif not os.path.isfile(relative_path):
-            generate_pages_recursive(relative_path,template_path, relative_dest)
+            generate_pages_recursive(relative_path,template_path, relative_dest,
+                                     base_path)
 
 
 main()
