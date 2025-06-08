@@ -1,7 +1,7 @@
 body {
-  background-color: #1f1c25;
-  color: #f0e6d1;
-  font-family: "Luminari", "Georgia", serif;
+  font-family: 'Domine', serif;
+  background-color: #fafafa;
+  color: #1A1A1A;
   line-height: 1.7;
   margin: 0;
   padding: 20px;
@@ -20,10 +20,10 @@ h3,
 h4,
 h5,
 h6 {
-  color: #dda15e;
+  color: #1a1a1a;
   margin-top: 24px;
   margin-bottom: 16px;
-  text-shadow: 2px 2px 4px #000;
+  font-weight: 700;
 }
 
 h1 {
@@ -45,14 +45,14 @@ h6 {
 }
 
 a {
-  color: #e0a96d;
+  color: #007a55;
   text-decoration: none;
-  border-bottom: 2px solid #e0a96d;
+  border-bottom: 2px solid #007a55;
 }
 
 a:hover {
-  color: #f4a261;
-  border-color: #f4a261;
+  color: #064e3b;
+  border-color: #064e3b;
 }
 
 ul,
@@ -61,11 +61,11 @@ ol {
 }
 
 code {
-  background-color: #3c3c42;
+  background-color: #e7e5e4;
   border-radius: 6px;
-  color: #e9c46a;
+  color: #047857;
   padding: 0.4em 0.6em;
-  font-family: "Courier New", monospace;
+  font-family: "Inconsolata", monospace;
 }
 
 pre code {
@@ -73,22 +73,21 @@ pre code {
 }
 
 pre {
-  background-color: #3c3c42;
+  background-color: #e7e5e4;
   border-radius: 6px;
   padding: 1em;
   overflow: auto;
-  box-shadow: 2px 2px 6px #000;
 }
 
 blockquote {
-  background-color: #2e2c35;
-  border-left: 4px solid #8d99ae;
+  background-color: #e5e5e5;
+  border-left: 4px solid #065f46;
   padding-left: 2em;
   margin-left: 0;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-right: 0.5em;
-  color: #ddd;
+  color: #1A1A1A;
   font-style: italic;
 }
 
@@ -96,8 +95,7 @@ img {
   max-width: 100%;
   height: auto;
   border-radius: 6px;
-  border: 3px solid #3c3c42;
-  box-shadow: 3px 3px 6px #000;
+  border: 3px solid #064e3b;
 }
 
 ::-webkit-scrollbar {
